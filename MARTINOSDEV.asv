@@ -173,15 +173,8 @@ for block = 1 : data.Nblocks
             display_squares(squareMatrixNumbers);
             display_mask_prime_mask_probe
             
-            %for all the trials we generated an array of 1,-1 evenly and
-            %randomised at beginning. If this trial should show the correct
-            %then show correct else show false.
-            if correctOrWrongSquares(data.trial,1) == 1
-                vectorToDisplay  = getCorrectRandomColorAndPositionFromVector(squareMatrixNumbers);
-            else
-                 vectorToDisplay  = getFalseRandomColorAndPositionFromVector(squareMatrixNumbers);
-            end
-            
+            if 
+            data.trial
             %             display_probe
             
             % ============================================================== %
