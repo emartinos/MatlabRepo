@@ -7,7 +7,7 @@
 % v2. WM set 9 digits
 % v5. task is now orientation discrimination.
 % v6. No WM task. Added various prime timings.
-% v7. Added multiple prime timings [1-absent, 29, 43, 57, 114]
+% v7. Added multiple prime timings [0-absent, 29, 43, 57, 114]
 % v8. 1. Made the task a detection task [target present vs absent]
 %     2. removed the 0-absent condition
 % v9. adjusted timings to 75Hz screen [26, 40, 53, 106]
@@ -16,7 +16,7 @@
 %      2. Increased duration of the target to 150ms
 % v12 Changed the target duration to 90ms
 
-addpath 'D:\Program Files\MATLAB\MATLAB Production Server\R2015a\toolbox\Cogent2000v1.33\Toolbox'
+addpath 'C:\Program Files\MATLAB\R2010a\toolbox\Cogent2000v1.30\Toolbox'
 
 data.subject = input('Subject ID = '); % Subject's ID starting with 01
 if data.subject == 999 || data.subject == 998
@@ -44,8 +44,8 @@ end
 global background foreground fix_size penwidth pencolour fontname fontsize...
     exp memory block delay probe condMet cross mask gam
 gam = 2.2;
-mode=0;  %window=0, fullscreen=1, second screen = 2
-resolution=6; %1=640x480, 2=800x600, 3=1024x768, 4=1152x864, 5=1280x1024, 6=1600x1200
+mode=1;  %window=0, fullscreen=1, second screen = 2
+resolution=3; %1=640x480, 2=800x600, 3=1024x768, 4=1152x864, 5=1280x1024, 6=1600x1200
 % Globalize there variables (see: help global)
 
 % ========================== Configure Cogent ========================= %
@@ -93,10 +93,10 @@ for i = 1 : length(conds)
     end
 end
 
-data.conds(:,:,1) = [shuffle(conds)];
-data.conds(:,:,2) = [shuffle(conds)];
-data.conds(:,:,3) = [shuffle(conds)];
-data.conds(:,:,4) = [shuffle(conds)];
+data.conds(:,:,1) = [shuffleD(conds)];
+data.conds(:,:,2) = [shuffleD(conds)];
+data.conds(:,:,3) = [shuffleD(conds)];
+data.conds(:,:,4) = [shuffleD(conds)];
 
 % ====================================================================== %
 % Initialize Variables
@@ -108,7 +108,6 @@ data.output   = [];
 % =================
 cgfont(fontname,fontsize);
 cgpencol(pencolour)
-
 
 for block = 1 : data.Nblocks
     data.trial    = 0;
@@ -237,13 +236,13 @@ congruency = data.output(:,5);
 % ======================================================================= %
 % Cross ACC
 data.cross.acc(1) = mean(crossACC(~isnan(crossACC))); % overall RT
-data.cross.acc(2) = mean(crossACC(congruency == congr  & ~isnan(crossACC))); % overall RT
-data.cross.acc(3) = mean(crossACC(congruency == inCongr & ~isnan(crossACC))); % overall RT
+data.cross.acc(2) = mean(crossACC(congruency == congr   & ~isnan(crossACC))); % overall RT
+data.cross.acc(3) = mean(crossACC(congruency == inCongr   & ~isnan(crossACC))); % overall RT
 
 % Cross RT
 data.cross.rt(1) = mean(crossRT(~isnan(crossACC))); % overall RT
-data.cross.rt(2) = mean(crossRT(congruency == congr     & cossACC==1 & ~isnan(crossACC))); % overall RT
-data.cross.rt(3) = mean(crossRT(congruency == inCongr     & cossACC==1 & ~isnan(crossACC))); % overall RT
+data.cross.rt(2) = mean(crossRT(congruency == congr   & ~isnan(crossACC))); % overall RT
+data.cross.rt(3) = mean(crossRT(congruency == inCongr   & ~isnan(crossACC))); % overall RT
 
 % save data
 save(resultFileName,'data');
@@ -296,7 +295,7 @@ succD(1) = 0;
 succD(2) = 0;
 MemSet = WMSet';
 MemSet(:,1) = MemSet;
-MemSet(:,2) = shuffle(MemSet);
+MemSet(:,2) = shuffleD(MemSet);
 MemSetNum(1) = str2double(MemSet(1,2));
 for i = 2 : size(MemSet,1)
     MemSetNum(i) = str2double(MemSet(i,2));
