@@ -78,9 +78,9 @@ start_cogent; % necessary
 % Experimental Conditions
 
 % load_conds          = repmat([ones(4,1);1+ones(4,1)],1,1);
-cross_prime         = repmat([ones(2,1);1+ones(2,1)],24,1);
-cross_probe         = repmat([ones(1,1);1+ones(1,1)],48,1);
-timings_26   = ones(96,1)*26;
+cross_prime         = repmat([ones(2,1);1+ones(2,1)],13,1);
+cross_probe         = repmat([ones(1,1);1+ones(1,1)],26,1);
+timings_26   = ones(52,1)*26;
  
 conds  = [cross_prime cross_probe];
 
