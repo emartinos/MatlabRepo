@@ -168,7 +168,7 @@ for block = 1 : data.Nblocks
             %             display_arc_postmask
             
             %generate a matrix for the squares
-            squareMatrixNumbers = getSquareMatrix(block*3)
+            squareMatrixNumbers = getSquareMatrix(3*3)
             %display them on screen
             display_squares(squareMatrixNumbers);
             display_mask_prime_mask_probe
@@ -523,145 +523,132 @@ return
 
 
 
-function display_squares(squareMatrix)
-global background squares exp mask gam
-exp.ABORT = false;
-cgflip(background(1),background(2),background(3)) .* 1000;
-%1=red
-%2=green
-%3=blue
-%4=yellow
-%5=pink
-%6=teal
-cgscale(120);
-for i = 1:size(squareMatrix,1)
-    for j = 1:size(squareMatrix,2)
+    function display_squares(squareMatrix)
+        global background squares exp mask gam
+        exp.ABORT = false;
+        cgflip(background(1),background(2),background(3)) .* 1000;
+        %1=red
+        %2=green
+        %3=blue
+        %4=yellow
+        %5=pink
+        %6=teal
+        cgscale(120);
+        for i = 1:size(squareMatrix,1)
+            for j = 1:size(squareMatrix,2)
+                cgscale(120);
+                xScreenPos = 0;
+                yScreenPos=  0;
+                if squareMatrix(i,j)  ~= 0
+                    if j ==1
+                        xScreenPos = -40;
+                    elseif j == 2
+                        xScreenPos = 0;
+                    elseif j ==3
+                        xScreenPos = 40;
+                    end
+                    
+                    if size(squareMatrix,1) ==1
+                        yScreenPos = 0;
+                    elseif size(squareMatrix,1)==2
+                        if i ==1
+                            yScreenPos = 30;
+                        elseif i ==2
+                            yScreenPos = -30;
+                        end
+                    elseif size(squareMatrix,1)==3
+                        if i ==1
+                            yScreenPos = 30;
+                        elseif i ==2
+                            yScreenPos = 0;
+                        elseif i ==3
+                            yScreenPos = -30;
+                        end
+                    end
+                    
+                    %at this point we have an x and a y position for our matrix. Now we
+                    %need to get the color.
+                    
+                    if squareMatrix(i,j) == 1
+                        cgpencol(1,0,0);
+                    elseif squareMatrix(i,j) == 2
+                        cgpencol(0,1,0);
+                    elseif squareMatrix(i,j) == 3
+                        cgpencol(0,0,1);
+                    elseif squareMatrix(i,j) == 4
+                        cgpencol(1,1,0);
+                    elseif squareMatrix(i,j) == 5
+                        cgpencol(1,0,1);
+                    elseif squareMatrix(i,j) == 6
+                        cgpencol(0,1,1);
+                    end
+                    cgrect(xScreenPos,yScreenPos,20,20);
+                end
+            end
+        end
+        %----------------------------------------------------------------------
+        cgflip(background(1),background(2),background(3)) .* 1000;
+        wait(2000);
+        %----------------------------------------------------------------------
+        return
+
+    function displaySingleSquare(squareMatrix,mySize)
+        global background squares exp mask gam
+        exp.ABORT = false;
+        cgflip(background(1),background(2),background(3)) .* 1000;
+        %1=red
+        %2=green
+        %3=blue
+        %4=yellow
+        %5=pink
+        %6=teal
         cgscale(120);
         xScreenPos = 0;
         yScreenPos=  0;
-        if squareMatrix(i,j)  ~= 0
-            if j ==1
-                xScreenPos = -40;
-            elseif j == 2
-                xScreenPos = 0;
-            elseif j ==3
-                xScreenPos = 40;
-            end
-            
-            if size(squareMatrix,1) ==1
-                yScreenPos = 0;
-            elseif size(squareMatrix,1)==2
-                if i ==1
-                    yScreenPos = 30;
-                elseif i ==2
-                    yScreenPos = -30;
-                end
-            elseif size(squareMatrix,1)==3
-                if i ==1
-                    yScreenPos = 30;
-                elseif i ==2
-                    yScreenPos = 0;
-                elseif i ==3
-                    yScreenPos = -30;
-                end
-            end
-            
-            %at this point we have an x and a y position for our matrix. Now we
-            %need to get the color.
-            
-            if squareMatrix(i,j) == 1
-                cgpencol(1,0,0);
-            elseif squareMatrix(i,j) == 2
-                cgpencol(0,1,0);
-            elseif squareMatrix(i,j) == 3
-                cgpencol(0,0,1);
-            elseif squareMatrix(i,j) == 4
-                cgpencol(1,1,0);
-            elseif squareMatrix(i,j) == 5
-                cgpencol(1,0,1);
-            elseif squareMatrix(i,j) == 6
-                cgpencol(0,1,1);
-            end
-            cgrect(xScreenPos,yScreenPos,20,20);
+        if squareMatrix(1,2) == 1
+            xScreenPos = -40;
+        elseif squareMatrix(1,2) == 2
+            xScreenPos = 0;
+        elseif squareMatrix(1,2) == 3
+            xScreenPos = 40;
         end
-    end
-end
-%----------------------------------------------------------------------
-mask.pre_OnsetTime = cgflip(background(1),background(2),background(3)) .* 1000;
-waituntil(mask.pre_OnsetTime+ mask.pre_duration);
-mask.pre_OffsetTime = cgflip(background(1),background(2),background(3)) .* 1000;
-mask.pre_actualDuration = mask.pre_OffsetTime - mask.pre_OnsetTime
-%----------------------------------------------------------------------
-return
-
-
-
-
-function squareQuestion(squareMatrix)
-global background squares exp mask gam
-exp.ABORT = false;
-cgflip(background(1),background(2),background(3)) .* 1000;
-%1=red
-%2=green
-%3=blue
-%4=yellow
-%5=pink
-%6=teal
-cgscale(120);
-for i = 1:size(squareMatrix,1)
-    for j = 1:size(squareMatrix,2)
-        cgscale(120);
-        xScreenPos = 0;
-        yScreenPos=  0;
-        if squareMatrix(i,j)  ~= 0
-            if j ==1
-                xScreenPos = -40;
-            elseif j == 2
-                xScreenPos = 0;
-            elseif j ==3
-                xScreenPos = 40;
+        if mySize == 1
+            yScreenPos = 0;
+        elseif mySize ==2
+            if squareMatrix(1,1) == 1
+                yScreenPos = 30;
+            elseif squareMatrix(1,1) == 2
+                yScreenPos = -30;
             end
-            
-            if mySize == 1 || mySize == 2 || mySize == 3
+        else
+            if squareMatrix(1,1) == 1
+                yScreenPos = 30;
+            elseif squareMatrix(1,1) == 2
                 yScreenPos = 0;
-            elseif mySize ==4 || mySize == 5 || mySize == 6
-                if i ==1
-                    yScreenPos = 30;
-                elseif i ==2
-                    yScreenPos = -30;
-                end
-            elseif mySize ==7 || mySize == 8 || mySize == 9
-                if i ==1
-                    yScreenPos = 30;
-                elseif i ==2
-                    yScreenPos = 0;
-                elseif i ==3
-                    yScreenPos = -30;
-                end
+            elseif squareMatrix(1,1) == 3
+                yScreenPos = -30;
             end
-            
-            %at this point we have an x and a y position for our matrix. Now we
-            %need to get the color.
-            
-            if squareMatrix(i,j) == 1
-                cgpencol(1,0,0);
-            elseif squareMatrix(i,j) == 2
-                cgpencol(0,1,0);
-            elseif squareMatrix(i,j) == 3
-                cgpencol(0,0,1);
-            elseif squareMatrix(i,j) == 4
-                cgpencol(1,1,0);
-            elseif squareMatrix(i,j) == 5
-                cgpencol(1,0,1);
-            elseif squareMatrix(i,j) == 6
-                cgpencol(0,1,1);
-            end
-            cgrect(xScreenPos,yScreenPos,20,20);
         end
-    end
-end
-%----------------------------------------------------------------------
-cgflip(background(1),background(2),background(3)) .* 1000;
-waituntil(8000);
-%----------------------------------------------------------------------
-return
+        
+        %at this point we have an x and a y position for our matrix. Now we
+        %need to get the color.
+        
+        if squareMatrix(1,3) == 1
+            cgpencol(1,0,0);
+        elseif squareMatrix(1,3) == 2
+            cgpencol(0,1,0);
+        elseif squareMatrix(1,3) == 3
+            cgpencol(0,0,1);
+        elseif squareMatrix(1,3) == 4
+            cgpencol(1,1,0);
+        elseif squareMatrix(1,3) == 5
+            cgpencol(1,0,1);
+        elseif squareMatrix(1,3) == 6
+            cgpencol(0,1,1);
+        end
+        cgrect(xScreenPos,yScreenPos,20,20);
+        %----------------------------------------------------------------------
+        cgflip(background(1),background(2),background(3)) .* 1000;
+        wait(2000);
+        %----------------------------------------------------------------------
+        return
