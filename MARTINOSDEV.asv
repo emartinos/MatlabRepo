@@ -173,8 +173,15 @@ for block = 1 : data.Nblocks
             display_squares(squareMatrixNumbers);
             display_mask_prime_mask_probe
             
-            if 
-            data.trial
+            %for all the trials we generated an array of 1,-1 evenly and
+            %randomised at beginning. If this trial should show the correct
+            %then show correct else show false.
+            if correctOrWrongSquares(data.trial,1) == 1
+                vectorToDisplay  = getCorrectRandomColorAndPositionFromVector(squareMatrixNumbers);
+            else
+                 vectorToDisplay  = getFalseRandomColorAndPositionFromVector(squareMatrixNumbers);
+            end
+            
             %             display_probe
             
             % ============================================================== %
@@ -516,12 +523,10 @@ return
 
 
 
-function display_squares(mySize)
+function display_squares(squareMatrix)
 global background squares exp mask gam
 exp.ABORT = false;
 cgflip(background(1),background(2),background(3)) .* 1000;
-
-squareMatrix = getSquareMatrix(mySize)
 %1=red
 %2=green
 %3=blue
@@ -543,15 +548,15 @@ for i = 1:size(squareMatrix,1)
                 xScreenPos = 40;
             end
             
-            if mySize == 1 || mySize == 2 || mySize == 3
+            if size(squareMatrix,1) ==1
                 yScreenPos = 0;
-            elseif mySize ==4 || mySize == 5 || mySize == 6
+            elseif size(squareMatrix,1)==2
                 if i ==1
                     yScreenPos = 30;
                 elseif i ==2
                     yScreenPos = -30;
                 end
-            elseif mySize ==7 || mySize == 8 || mySize == 9
+            elseif size(squareMatrix,1)==3
                 if i ==1
                     yScreenPos = 30;
                 elseif i ==2

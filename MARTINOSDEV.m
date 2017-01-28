@@ -548,15 +548,15 @@ for i = 1:size(squareMatrix,1)
                 xScreenPos = 40;
             end
             
-            if mySize == 1 || mySize == 2 || mySize == 3
+            if size(squareMatrix,1) ==1
                 yScreenPos = 0;
-            elseif mySize ==4 || mySize == 5 || mySize == 6
+            elseif size(squareMatrix,1)==2
                 if i ==1
                     yScreenPos = 30;
                 elseif i ==2
                     yScreenPos = -30;
                 end
-            elseif mySize ==7 || mySize == 8 || mySize == 9
+            elseif size(squareMatrix,1)==3
                 if i ==1
                     yScreenPos = 30;
                 elseif i ==2
@@ -661,9 +661,7 @@ for i = 1:size(squareMatrix,1)
     end
 end
 %----------------------------------------------------------------------
-mask.pre_OnsetTime = cgflip(background(1),background(2),background(3)) .* 1000;
-waituntil(mask.pre_OnsetTime+ mask.pre_duration);
-mask.pre_OffsetTime = cgflip(background(1),background(2),background(3)) .* 1000;
-mask.pre_actualDuration = mask.pre_OffsetTime - mask.pre_OnsetTime
+cgflip(background(1),background(2),background(3)) .* 1000;
+waituntil(8000);
 %----------------------------------------------------------------------
 return
