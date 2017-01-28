@@ -1,4 +1,4 @@
-   function wm_unconscious_distr_v12
+function wm_unconscious_distr_v12
 %%
 % % ===================================================================== %
 % % CS SUCCESSOR NAMING TASK %
@@ -44,7 +44,7 @@ end
 global background foreground fix_size penwidth pencolour fontname fontsize...
     exp memory block delay probe condMet cross mask gam
 gam = 2.2;
-mode=0;  %window=0, fullscreen=1, second screen = 2
+mode=1;  %window=0, fullscreen=1, second screen = 2
 resolution=6; %1=640x480, 2=800x600, 3=1024x768, 4=1152x864, 5=1280x1024, 6=1600x1200
 % Globalize there variables (see: help global)
 
@@ -81,7 +81,7 @@ start_cogent; % necessary
 cross_prime         = repmat([ones(2,1);1+ones(2,1)],13,1);
 cross_probe         = repmat([ones(1,1);1+ones(1,1)],26,1);
 timings_26   = ones(52,1)*26;
- 
+
 conds  = [cross_prime cross_probe];
 
 % Now create 4th column that codes congruency (1=congruent; 0=incongruent)
@@ -113,7 +113,7 @@ for block = 1 : data.Nblocks
     data.trial = 0;
     cgflip(background(1),background(2),background(3)); cgflip(background(1),background(2),background(3)); % clear background color
     cgtext(['Start block ', int2str(block) ' of ' int2str(data.Nblocks)],0,100); % create buffer with text to start block
-%     cgtext(['Timing ', int2str(data.conds(1,4,block))],0,200); % create buffer with text to start trial
+    %     cgtext(['Timing ', int2str(data.conds(1,4,block))],0,200); % create buffer with text to start trial
     cgflip(background(1),background(2),background(3)); % display buffer
     waitkeydown(inf); % wait for a key press
     fixation(fix_size,'+'); % create fixation cross buffer
@@ -126,21 +126,21 @@ for block = 1 : data.Nblocks
         [condMet] = succDigitTest;
         if condMet == 0 % if no more than 2 digits are consecutive
             data.trial = data.trial + 1; % add 1 to trial index variable
-            % Conditions' Variables 
-%             memory.load            = data.conds(data.trial,1,block);
-%             cross.prime.presence   = data.conds(data.trial,1,block);
+            % Conditions' Variables
+            %             memory.load            = data.conds(data.trial,1,block);
+            %             cross.prime.presence   = data.conds(data.trial,1,block);
             cross.prime.position   = data.conds(data.trial,1,block);
             cross.probe.position   = data.conds(data.trial,2,block);
             cross.probe.congruency = data.conds(data.trial,3,block);
             % ============================================================== %
             % Experimental Parameters (e.g. durations)
-%             switch memory.load
-%                 case 1
-%                     memory.duration = 500;
-%                 case 2
-%                     %                     memory.duration = 1500; % this is wm set 6 duration
-%                     memory.duration = 2000; % this is wm set 9 duration
-%             end
+            %             switch memory.load
+            %                 case 1
+            %                     memory.duration = 500;
+            %                 case 2
+            %                     %                     memory.duration = 1500; % this is wm set 6 duration
+            %                     memory.duration = 2000; % this is wm set 9 duration
+            %             end
             cross.respDur  = 3000;
             mask.pre_duration     = 500;
             mask.post_duration    = 50;
@@ -150,7 +150,7 @@ for block = 1 : data.Nblocks
             % Start Trial
             cgflip(background(1),background(2),background(3));
             cgtext(['Start Trial ', int2str(data.trial) ' of ' int2str(data.Ntrials)],0,100); % create buffer with text to start trial
-%             cgtext(['Timing ', int2str(cross.prime.duration)],0,200); % create buffer with text to start trial
+            %             cgtext(['Timing ', int2str(cross.prime.duration)],0,200); % create buffer with text to start trial
             cgflip(background(1),background(2),background(3)); % display buffer
             waitkeydown(inf); % wait for a key press
             fixation(fix_size,'.'); % create fixation cross buffer
@@ -164,9 +164,9 @@ for block = 1 : data.Nblocks
             %             display_arc_premask
             %             display_prime
             %             display_arc_postmask
-            
+            display_squares(3*3);
             display_mask_prime_mask_probe
-%             display_probe
+            %             display_probe
             
             % ============================================================== %
             %             MemoryProbe % this is the memory probe function
@@ -202,7 +202,7 @@ for block = 1 : data.Nblocks
                     cross.probe.OffsetTime...
                     cross.probe_actualDuration...
                     ];
-                    save(resultFileName,'data');
+                save(resultFileName,'data');
             end
         end % condMet
     end % trial
@@ -367,7 +367,7 @@ xPosition = [xPositive;xNegative];
 % cgpencol(data.prime_bgr)
 cgpenwid(.1)
 % if cross.prime.presence == 1
-    cgdraw(-20,0,20,0)
+cgdraw(-20,0,20,0)
 % end
 % ====================================================================== %
 vx1 = 0;
@@ -376,10 +376,10 @@ vx2 = 0;
 vy2 = 20;
 
 % data.prime_bgr = [.1 .1 .1] .^ (1/gam);
-% cgpencol(data.prime_bgr) 
+% cgpencol(data.prime_bgr)
 cgpencol(0,0,0)
 cgpenwid(.1)
-% if cross.prime.presence == 1 
+% if cross.prime.presence == 1
 cgdraw(vx1+xPosition(cross.prime.position),vy1,vx2+xPosition(cross.prime.position),-vy2)
 % end
 % ====================================================================== %
@@ -425,10 +425,10 @@ mask.post_actualDuration = mask.post_OffsetTime - mask.post_OnsetTime
 % xPosition = [xPositive;xNegative];
 % ====================================================================== %
 data.probe_bgr = [.1 .1 .1] .^ (1/gam);
-cgpencol(data.probe_bgr) 
+cgpencol(data.probe_bgr)
 cgpenwid(.1)
 % if cross.prime.presence == 1
-    cgdraw(-20,0,20,0)
+cgdraw(-20,0,20,0)
 % end
 % ====================================================================== %
 vx1 = 0;
@@ -507,19 +507,20 @@ return
 
 
 
-function display_squares(size)
-global background cross exp mask gam
+function display_squares(mySize)
+global background squares exp mask gam
 exp.ABORT = false;
 cgflip(background(1),background(2),background(3)) .* 1000;
 
-squareMatrix = getSquareMatrix(size)
+A = [1,2,3;1,2,3];
+squareMatrix = getSquareMatrix(mySize)
 %1=red
 %2=green
 %3=blue
 %4=yellow
 %5=pink
 %6=teal
- cgscale(120);
+cgscale(120);
 for i = 1:size(squareMatrix,1)
     for j = 1:size(squareMatrix,2)
         cgscale(120);
@@ -532,21 +533,45 @@ for i = 1:size(squareMatrix,1)
                 xScreenPos = 0;
             elseif j ==3
                 xScreenPos = 40;
-            end                
-        end
-        
-        if squareMatrix(i,j)  ~= 0
-            if size == 1
-                yScreenPos = 0
-            elseif size ==2
+            end
+            
+            if mySize == 1 || mySize == 2 || mySize == 3
+                yScreenPos = 0;
+            elseif mySize ==4 || mySize == 5 || mySize == 6
                 if i ==1
-                    yScreenPos = 
+                    yScreenPos = 30;
                 elseif i ==2
+                    yScreenPos = -30;
                 end
+            elseif mySize ==7 || mySize == 8 || mySize == 9
+                if i ==1
+                    yScreenPos = 30;
+                elseif i ==2
+                    yScreenPos = 0;
+                elseif i ==3
+                    yScreenPos = -30;
+                end
+            end
+            
+            %at this point we have an x and a y position for our matrix. Now we
+            %need to get the color.
+            
+            if squareMatrix(i,j) == 1
+                cgpencol(1,0,0);
+            elseif squareMatrix(i,j) == 2
+                cgpencol(0,1,0);
+            elseif squareMatrix(i,j) == 3
+                cgpencol(0,0,1);
+            elseif squareMatrix(i,j) == 4
+                cgpencol(1,1,0);
+            elseif squareMatrix(i,j) == 5
+                cgpencol(1,0,1);
+            elseif squareMatrix(i,j) == 6
+                cgpencol(0,1,1);
+            end
+            cgrect(xScreenPos,yScreenPos,20,20);
         end
-        
     end
 end
-
-
+cgflip();
 return

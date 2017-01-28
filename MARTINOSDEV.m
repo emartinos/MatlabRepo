@@ -508,11 +508,10 @@ return
 
 
 function display_squares(mySize)
-global background cross exp mask gam
+global background squares exp mask gam
 exp.ABORT = false;
 cgflip(background(1),background(2),background(3)) .* 1000;
 
-A = [1,2,3;1,2,3];
 squareMatrix = getSquareMatrix(mySize)
 %1=red
 %2=green
@@ -573,5 +572,10 @@ for i = 1:size(squareMatrix,1)
         end
     end
 end
-cgflip();
+%----------------------------------------------------------------------
+mask.pre_OnsetTime = cgflip(background(1),background(2),background(3)) .* 1000;
+waituntil(mask.pre_OnsetTime+ mask.pre_duration);
+mask.pre_OffsetTime = cgflip(background(1),background(2),background(3)) .* 1000;
+mask.pre_actualDuration = mask.pre_OffsetTime - mask.pre_OnsetTime
+%----------------------------------------------------------------------
 return
