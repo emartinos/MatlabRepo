@@ -13,9 +13,9 @@ colorAndPos(1,1) = yPos;
 colorAndPos(1,2) = xPos;
 
 correctColor = vector(yPos,xPos);
-returnedColor = randi(6);
+returnedColor = randi(9);
 while returnedColor == correctColor
-    returnedColor = randi(6);
+    returnedColor = randi(9);
 end
 colorAndPos(1,3) = returnedColor;
 colorAndPos(1,4) = -1;

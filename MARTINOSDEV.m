@@ -655,6 +655,12 @@ for i = 1:size(squareMatrix,1)
                 cgpencol(1,0,1);
             elseif squareMatrix(i,j) == 6
                 cgpencol(0,1,1);
+            elseif squareMatrix(i,j) == 7
+                cgpencol(0.5,1,1);
+            elseif squareMatrix(i,j) == 8
+                cgpencol(0,0.5,1);
+            elseif squareMatrix(i,j) == 9
+                cgpencol(0,1,0.5);
             end
             cgrect(xScreenPos,yScreenPos,20,20);
         end
