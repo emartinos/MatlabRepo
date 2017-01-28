@@ -523,12 +523,10 @@ return
 
 
 
-function display_squares(mySize)
+function display_squares(squareMatrix)
 global background squares exp mask gam
 exp.ABORT = false;
 cgflip(background(1),background(2),background(3)) .* 1000;
-
-squareMatrix = getSquareMatrix(mySize)
 %1=red
 %2=green
 %3=blue
