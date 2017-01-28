@@ -7,7 +7,7 @@
 % v2. WM set 9 digits
 % v5. task is now orientation discrimination.
 % v6. No WM task. Added various prime timings.
-% v7. Added multiple prime timings [0-absent, 29, 43, 57, 114]
+% v7. Added multiple prime timings [1-absent, 29, 43, 57, 114]
 % v8. 1. Made the task a detection task [target present vs absent]
 %     2. removed the 0-absent condition
 % v9. adjusted timings to 75Hz screen [26, 40, 53, 106]
@@ -16,7 +16,7 @@
 %      2. Increased duration of the target to 150ms
 % v12 Changed the target duration to 90ms
 
-addpath 'C:\Program Files\MATLAB\R2010a\toolbox\Cogent2000v1.30\Toolbox'
+addpath 'D:\Program Files\MATLAB\MATLAB Production Server\R2015a\toolbox\Cogent2000v1.33\Toolbox'
 
 data.subject = input('Subject ID = '); % Subject's ID starting with 01
 if data.subject == 999 || data.subject == 998
@@ -44,8 +44,8 @@ end
 global background foreground fix_size penwidth pencolour fontname fontsize...
     exp memory block delay probe condMet cross mask gam
 gam = 2.2;
-mode=1;  %window=0, fullscreen=1, second screen = 2
-resolution=3; %1=640x480, 2=800x600, 3=1024x768, 4=1152x864, 5=1280x1024, 6=1600x1200
+mode=0;  %window=0, fullscreen=1, second screen = 2
+resolution=6; %1=640x480, 2=800x600, 3=1024x768, 4=1152x864, 5=1280x1024, 6=1600x1200
 % Globalize there variables (see: help global)
 
 % ========================== Configure Cogent ========================= %
@@ -78,9 +78,9 @@ start_cogent; % necessary
 % Experimental Conditions
 
 % load_conds          = repmat([ones(4,1);1+ones(4,1)],1,1);
-cross_prime         = repmat([ones(2,1);1+ones(2,1)],24,1);
-cross_probe         = repmat([ones(1,1);1+ones(1,1)],48,1);
-timings_26   = ones(96,1)*26;
+cross_prime         = repmat([ones(2,1);1+ones(2,1)],13,1);
+cross_probe         = repmat([ones(1,1);1+ones(1,1)],26,1);
+timings_26   = ones(52,1)*26;
  
 conds  = [cross_prime cross_probe];
 
@@ -96,7 +96,6 @@ end
 data.conds(:,:,1) = [shuffleD(conds)];
 data.conds(:,:,2) = [shuffleD(conds)];
 data.conds(:,:,3) = [shuffleD(conds)];
-data.conds(:,:,4) = [shuffleD(conds)];
 
 % ====================================================================== %
 % Initialize Variables
@@ -109,8 +108,9 @@ data.output   = [];
 cgfont(fontname,fontsize);
 cgpencol(pencolour)
 
+
 for block = 1 : data.Nblocks
-    data.trial    = 0;
+    data.trial = 0;
     cgflip(background(1),background(2),background(3)); cgflip(background(1),background(2),background(3)); % clear background color
     cgtext(['Start block ', int2str(block) ' of ' int2str(data.Nblocks)],0,100); % create buffer with text to start block
 %     cgtext(['Timing ', int2str(data.conds(1,4,block))],0,200); % create buffer with text to start trial
@@ -236,13 +236,13 @@ congruency = data.output(:,5);
 % ======================================================================= %
 % Cross ACC
 data.cross.acc(1) = mean(crossACC(~isnan(crossACC))); % overall RT
-data.cross.acc(2) = mean(crossACC(congruency == congr   & ~isnan(crossACC))); % overall RT
-data.cross.acc(3) = mean(crossACC(congruency == inCongr   & ~isnan(crossACC))); % overall RT
+data.cross.acc(2) = mean(crossACC(congruency == congr  & ~isnan(crossACC))); % overall RT
+data.cross.acc(3) = mean(crossACC(congruency == inCongr & ~isnan(crossACC))); % overall RT
 
 % Cross RT
 data.cross.rt(1) = mean(crossRT(~isnan(crossACC))); % overall RT
-data.cross.rt(2) = mean(crossRT(congruency == congr   & ~isnan(crossACC))); % overall RT
-data.cross.rt(3) = mean(crossRT(congruency == inCongr   & ~isnan(crossACC))); % overall RT
+data.cross.rt(2) = mean(crossRT(congruency == congr     & cossACC==1 & ~isnan(crossACC))); % overall RT
+data.cross.rt(3) = mean(crossRT(congruency == inCongr     & cossACC==1 & ~isnan(crossACC))); % overall RT
 
 % save data
 save(resultFileName,'data');
@@ -504,3 +504,49 @@ else
 end
 return
 
+
+
+
+function display_squares(size)
+global background cross exp mask gam
+exp.ABORT = false;
+cgflip(background(1),background(2),background(3)) .* 1000;
+
+squareMatrix = getSquareMatrix(size)
+%1=red
+%2=green
+%3=blue
+%4=yellow
+%5=pink
+%6=teal
+ cgscale(120);
+for i = 1:size(squareMatrix,1)
+    for j = 1:size(squareMatrix,2)
+        cgscale(120);
+        xScreenPos = 0;
+        yScreenPos=  0;
+        if squareMatrix(i,j)  ~= 0
+            if j ==1
+                xScreenPos = -40;
+            elseif j == 2
+                xScreenPos = 0;
+            elseif j ==3
+                xScreenPos = 40;
+            end                
+        end
+        
+        if squareMatrix(i,j)  ~= 0
+            if size == 1
+                yScreenPos = 0
+            elseif size ==2
+                if i ==1
+                    yScreenPos = 
+                elseif i ==2
+                end
+        end
+        
+    end
+end
+
+
+return
