@@ -1,9 +1,0 @@
-function sA = getSquareMatrix(size)
-array = [];
-if size<=6
-    colorPerm = randperm(6,size);
-    
-for i = 1 : size 
-    sA(i,:) = sortedArray(randIndex(i),:);
-end
-return

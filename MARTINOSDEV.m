@@ -96,7 +96,6 @@ end
 data.conds(:,:,1) = [shuffleD(conds)];
 data.conds(:,:,2) = [shuffleD(conds)];
 data.conds(:,:,3) = [shuffleD(conds)];
-data.conds(:,:,4) = [shuffleD(conds)];
 
 % ====================================================================== %
 % Initialize Variables
@@ -111,7 +110,7 @@ cgpencol(pencolour)
 
 
 for block = 1 : data.Nblocks
-    data.trial    = 0;
+    data.trial = 0;
     cgflip(background(1),background(2),background(3)); cgflip(background(1),background(2),background(3)); % clear background color
     cgtext(['Start block ', int2str(block) ' of ' int2str(data.Nblocks)],0,100); % create buffer with text to start block
 %     cgtext(['Timing ', int2str(data.conds(1,4,block))],0,200); % create buffer with text to start trial
