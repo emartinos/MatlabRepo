@@ -579,3 +579,79 @@ mask.pre_OffsetTime = cgflip(background(1),background(2),background(3)) .* 1000;
 mask.pre_actualDuration = mask.pre_OffsetTime - mask.pre_OnsetTime
 %----------------------------------------------------------------------
 return
+
+
+
+
+function squareQuestion(mySize)
+global background squares exp mask gam
+exp.ABORT = false;
+cgflip(background(1),background(2),background(3)) .* 1000;
+
+squareMatrix = getSquareMatrix(mySize)
+%1=red
+%2=green
+%3=blue
+%4=yellow
+%5=pink
+%6=teal
+cgscale(120);
+for i = 1:size(squareMatrix,1)
+    for j = 1:size(squareMatrix,2)
+        cgscale(120);
+        xScreenPos = 0;
+        yScreenPos=  0;
+        if squareMatrix(i,j)  ~= 0
+            if j ==1
+                xScreenPos = -40;
+            elseif j == 2
+                xScreenPos = 0;
+            elseif j ==3
+                xScreenPos = 40;
+            end
+            
+            if mySize == 1 || mySize == 2 || mySize == 3
+                yScreenPos = 0;
+            elseif mySize ==4 || mySize == 5 || mySize == 6
+                if i ==1
+                    yScreenPos = 30;
+                elseif i ==2
+                    yScreenPos = -30;
+                end
+            elseif mySize ==7 || mySize == 8 || mySize == 9
+                if i ==1
+                    yScreenPos = 30;
+                elseif i ==2
+                    yScreenPos = 0;
+                elseif i ==3
+                    yScreenPos = -30;
+                end
+            end
+            
+            %at this point we have an x and a y position for our matrix. Now we
+            %need to get the color.
+            
+            if squareMatrix(i,j) == 1
+                cgpencol(1,0,0);
+            elseif squareMatrix(i,j) == 2
+                cgpencol(0,1,0);
+            elseif squareMatrix(i,j) == 3
+                cgpencol(0,0,1);
+            elseif squareMatrix(i,j) == 4
+                cgpencol(1,1,0);
+            elseif squareMatrix(i,j) == 5
+                cgpencol(1,0,1);
+            elseif squareMatrix(i,j) == 6
+                cgpencol(0,1,1);
+            end
+            cgrect(xScreenPos,yScreenPos,20,20);
+        end
+    end
+end
+%----------------------------------------------------------------------
+mask.pre_OnsetTime = cgflip(background(1),background(2),background(3)) .* 1000;
+waituntil(mask.pre_OnsetTime+ mask.pre_duration);
+mask.pre_OffsetTime = cgflip(background(1),background(2),background(3)) .* 1000;
+mask.pre_actualDuration = mask.pre_OffsetTime - mask.pre_OnsetTime
+%----------------------------------------------------------------------
+return

@@ -3,7 +3,7 @@
 %%column is the Y pos, 2nd col is the Y pos, 3rd is the colour(1-6) and 4th
 %%is whether the colour is corerct based on the original image shown to the
 %%user.
-function  returnedMatrix = getCorrectWrongArrayForSize(mySize,myVector)
+function  sA = getCorrectWrongArrayForSize(mySize,myVector)
 myMatrix = [];
 for i=1 : mySize
     if(i/mySize) > 0.5
@@ -13,7 +13,7 @@ for i=1 : mySize
     end
         
 end
-myMatrix = shuffleD(myMatrix)
+sA = shuffleD(myMatrix)
 
 
 returnedMatrix = [];
@@ -22,11 +22,11 @@ for i=1 : mySize
     %%array
     if(myMatrix(i,1)) == 1
         returnedM = getCorrectRandomColorAndPositionFromVector(myVector);
-        returnedMatrix(i,:) = returnedM(1,:);
+        returnedMatrix[i,1] = 
+        returnedMatrix[i,1] = getCorrectRandomColorAndPositionFromVector(myVector)(i,1);
     else
     %%if not then return false sample
-    returnedM = getFalseRandomColorAndPositionFromVector(myVector);
-    returnedMatrix(i,:) = returnedM(1,:);
+    getFalseRandomColorAndPositionFromVector(myVector)
     end
 end
 return
