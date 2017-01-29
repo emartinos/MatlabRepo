@@ -197,46 +197,46 @@ for block = 1 : data.Nblocks
                 break
             else
                 data.output = [data.output;...
-                    cross.probe.rt...
-                    cross.acc...
-                    cross.prime.position...
-                    cross.probe.position...
-                    cross.probe.congruency...
-                    cross.respOnset...
-                    cross.resp.key...
-                    cross.resp.time...
-                    cross.resp.n...
-                    cross.probe.duration...
-                    cross.respOffset...
-                    mask.pre_OnsetTime...
-                    mask.pre_OffsetTime...
-                    mask.pre_actualDuration...
-                    mask.pre_duration...
-                    cross.prime.OnsetTime...
-                    cross.prime.OffsetTime...
-                    cross.prime_actualDuration...
-                    cross.prime.duration...
-                    mask.post_OnsetTime...
-                    mask.post_OffsetTime...
-                    mask.post_actualDuration...
-                    mask.post_duration...
-                    cross.probe.OnsetTime...
-                    cross.probe.OffsetTime...
-                    cross.probe_actualDuration...   
-                    squareMatrixNumbers(vectorToDisplay(1,1),(vectorToDisplay(1,2)))... % actual square color
-                    vectorToDisplay(1,3)...%single square color
-                    vectorToDisplay(1,4)...%conjurency of square
-                    squares.acc...%whether the user found the correct answer
-                    squares.probe.duration...%the time the single square is shown
-                    squares.prime.duration...%the time the multiple squares showin at start.
-                    squares.respDur...%Think this is the max time we wait for an answer at question mark
-                    squares.respOnset...%The time the 2nd question mark is shown
-                    squares.respOffset...%The time the 2nd question mark is answered.
-                    squares.resp.time...%The time at which the participant responded(not time difference)
-                    squares.respOffset-squares.respOnset...%The reaction time based on onsets
-                    squares.resp.time-squares.respOnset...%The reaction time based on the waitkeyDown method(squares.resp.time and squares.respOffset-squares.respOnset should match
-                    squares.resp.key...%The key pressed (0/1/escape)
-                    squares.resp.n%No idea what this is
+                    cross.probe.rt...%1
+                    cross.acc...%2
+                    cross.prime.position...%3
+                    cross.probe.position...%4
+                    cross.probe.congruency...%5
+                    cross.respOnset...%6
+                    cross.resp.key...%7
+                    cross.resp.time...%8
+                    cross.resp.n...%9
+                    cross.probe.duration...%10
+                    cross.respOffset...%11
+                    mask.pre_OnsetTime...%12
+                    mask.pre_OffsetTime...%13
+                    mask.pre_actualDuration...%14
+                    mask.pre_duration...%15
+                    cross.prime.OnsetTime...%16
+                    cross.prime.OffsetTime...%17
+                    cross.prime_actualDuration...%18
+                    cross.prime.duration...%19
+                    mask.post_OnsetTime...%20
+                    mask.post_OffsetTime...%21
+                    mask.post_actualDuration...%22
+                    mask.post_duration...%23
+                    cross.probe.OnsetTime...%24
+                    cross.probe.OffsetTime...%25
+                    cross.probe_actualDuration...%26   
+                    squareMatrixNumbers(vectorToDisplay(1,1),(vectorToDisplay(1,2)))... %27 actual square color -- IMPORTANT
+                    vectorToDisplay(1,3)...%28 single square color -- IMPORTANT
+                    vectorToDisplay(1,4)...%29 conjurency of square -- IMPORTANT
+                    squares.acc...%30 whether the user found the correct answer -- IMPORTANT
+                    squares.probe.duration...%31 the time the single square is shown - FIXED
+                    squares.prime.duration...%32 the time the multiple squares showin at start. - FIXED
+                    squares.respDur...%33 Think this is the max time we wait for an answer at question mark
+                    squares.respOnset...%34 The time the 2nd question mark is shown
+                    squares.respOffset...%35 The time the 2nd question mark is answered.
+                    squares.resp.time...%36 The time at which the participant responded(not time difference)
+                    squares.respOffset-squares.respOnset...%37 The reaction time based on onsets
+                    squares.resp.time-squares.respOnset...%38 -- IMPORTANT THE ACTUAL REACTION TIME IN MILLISECONDS
+                    squares.resp.key...%39 The key pressed (0/1/escape)
+                    squares.resp.n% 40 I think this is how many times you spam keys
                                       
                     ];
                 save(resultFileName,'data');
@@ -312,6 +312,10 @@ title('CROSS RT');
 set(gca,'XTick',1:3, 'XTickLabelMode','manual', 'XTickLabel',{'Overall', 'Congr', 'Incongr'},'FontSize',10)
 xlim([0 4]);
 
+% Save figure
+barFileName = ['s', int2str(data.subject) '_session' int2str(data.session) ,'cross_probe_results', '.fig' ];
+saveas(gca,barFileName);
+
 figure(2)
 subplot(1,2,1);
 bar(data.square.acc, 'k');
@@ -326,7 +330,7 @@ set(gca,'XTick',1:3, 'XTickLabelMode','manual', 'XTickLabel',{'Overall', 'Congr'
 xlim([0 4]);
 
 % Save figure
-barFileName = ['s', int2str(data.subject) '_session' int2str(data.session) ,'_probe_results', '.fig' ];
+barFileName = ['s', int2str(data.subject) '_session' int2str(data.session) ,'square_probe_results', '.fig' ];
 saveas(gca,barFileName);
 % ======================================================================= %
 
