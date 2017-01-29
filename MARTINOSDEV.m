@@ -656,6 +656,7 @@ return
         %----------------------------------------------------------------------
         
         cgflip(background(1),background(2),background(3));
+        cgpencol(0,0,0)
         cgtext('?',0,0);
         squares.respOnset = cgflip(background,background,background) .* 1000;
         squares.resp.key =[]; cross.resp.time = [];  squares.resp.n = [];
