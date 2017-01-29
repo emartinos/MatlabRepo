@@ -169,7 +169,7 @@ for block = 1 : data.Nblocks
             %             display_arc_postmask
             
             %generate a matrix for the squares
-            squareMatrixNumbers = getSquareMatrix(block*3)
+            squareMatrixNumbers = getSquareMatrix(3*3)
             %display them on screen
             display_squares(squareMatrixNumbers);
             display_mask_prime_mask_probe
@@ -220,15 +220,7 @@ for block = 1 : data.Nblocks
                     mask.post_duration...
                     cross.probe.OnsetTime...
                     cross.probe.OffsetTime...
-                    cross.probe_actualDuration...;
-                    
-                    
-                    squareMatrixNumbers;...
-                    vectorToDisplay;...                    
-
-                    squares.resp.key...           
-                    squares.resp.acc...
-                    squares.resp.time               
+                    cross.probe_actualDuration...             
                     ];
                 save(resultFileName,'data');
             end
@@ -415,7 +407,7 @@ cross.prime.OnsetTime = cgflip(background(1),background(2),background(3)) .* 100
 waituntil(cross.prime.OnsetTime + cross.prime.duration);
 cross.prime.OffsetTime = cgflip(background(1),background(2),background(3)) .* 1000;
 cross.prime_actualDuration = cross.prime.OffsetTime - cross.prime.OnsetTime;
-prime_actual_duration = cross.prime_actualDuration
+prime_actual_duration = cross.prime_actualDuration;
 % ====================================================================== %
 % ====================================================================== %
 % Post-mask
@@ -553,28 +545,28 @@ return
                 yScreenPos=  0;
                 if squareMatrix(i,j)  ~= 0
                     if j ==1
-                        xScreenPos = -40;
+                        xScreenPos = -15;
                     elseif j == 2
                         xScreenPos = 0;
                     elseif j ==3
-                        xScreenPos = 40;
+                        xScreenPos = 15;
                     end
                     
                     if size(squareMatrix,1) ==1
                         yScreenPos = 0;
                     elseif size(squareMatrix,1)==2
                         if i ==1
-                            yScreenPos = 30;
+                            yScreenPos = 15;
                         elseif i ==2
-                            yScreenPos = -30;
+                            yScreenPos = -15;
                         end
                     elseif size(squareMatrix,1)==3
                         if i ==1
-                            yScreenPos = 30;
+                            yScreenPos = 15;
                         elseif i ==2
                             yScreenPos = 0;
                         elseif i ==3
-                            yScreenPos = -30;
+                            yScreenPos = -15;
                         end
                     end
                     
@@ -594,7 +586,7 @@ return
                     elseif squareMatrix(i,j) == 6
                         cgpencol(0,1,1);
                     end
-                    cgrect(xScreenPos,yScreenPos,20,20);
+                    cgrect(xScreenPos,yScreenPos,10,10);
                 end
             end
         end
@@ -658,7 +650,7 @@ return
         elseif squareMatrix(1,3) == 6
             cgpencol(0,1,1);
         end
-        cgrect(xScreenPos,yScreenPos,20,20);
+        cgrect(xScreenPos,yScreenPos,10,10);
         %----------------------------------------------------------------------
         cgflip(background(1),background(2),background(3)) .* 1000;
         wait(2000);
