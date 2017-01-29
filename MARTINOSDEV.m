@@ -270,17 +270,30 @@ inCongr = -1;
 crossACC   = data.output(:,2);
 crossRT    = data.output(:,1);
 congruency = data.output(:,5);
+
+
+squareACC   = data.output(:,30);
+squareRT    = data.output(:,37);
+squareCongruency = data.output(:,29);
 % ======================================================================= %
 % Cross ACC
 data.cross.acc(1) = mean(crossACC(~isnan(crossACC))); % overall RT
-data.cross.acc(2) = mean(crossACC(congruency == congr  & ~isnan(crossACC))); % overall RT
-data.cross.acc(3) = mean(crossACC(congruency == inCongr & ~isnan(crossACC))); % overall RT
+data.cross.acc(2) = mean(crossACC(congruency == congr  & ~isnan(crossACC))); % overall cross acc
+data.cross.acc(3) = mean(crossACC(congruency == inCongr & ~isnan(crossACC))); % overall cross acc
 
 % Cross RT
 data.cross.rt(1) = mean(crossRT(~isnan(crossACC))); % overall RT
-data.cross.rt(2) = mean(crossRT(congruency == congr     & cossACC==1 & ~isnan(crossACC))); % overall RT
-data.cross.rt(3) = mean(crossRT(congruency == inCongr     & cossACC==1 & ~isnan(crossACC))); % overall RT
+data.cross.rt(2) = mean(crossRT(congruency == congr     & crossACC==1 & ~isnan(crossACC))); % overall cross RT
+data.cross.rt(3) = mean(crossRT(congruency == inCongr     & crossACC==1 & ~isnan(crossACC))); % overall cross RT
 
+%Square ACC
+data.square.acc(1) = mean(squareACC(~isnan(squareACC))); % overall square Accuracy
+data.square.acc(2) = mean(squareACC(squareCongruency == congr  & ~isnan(squareACC))); % overall square Accuracy
+data.square.acc(3) = mean(squareACC(squareCongruency == inCongr & ~isnan(squareACC))); % overall square Accuracy
+%Square RT
+data.square.rt(1) = mean(squareRT(~isnan(squareACC))); % overall square RT
+data.square.rt(2) = mean(squareRT(squareCongruency == congr     & squareACC==1 & ~isnan(squareACC))); % overall square RT
+data.square.rt(3) = mean(squareRT(squareCongruency == inCongr     & squareACC==1 & ~isnan(squareACC))); % overall square RT
 % save data
 save(resultFileName,'data');
 % ======================================================================= %
@@ -296,6 +309,19 @@ xlim([0 4]);
 subplot(1,2,2);
 bar(data.cross.rt, 'k');
 title('CROSS RT');
+set(gca,'XTick',1:3, 'XTickLabelMode','manual', 'XTickLabel',{'Overall', 'Congr', 'Incongr'},'FontSize',10)
+xlim([0 4]);
+
+figure(2)
+subplot(1,2,1);
+bar(data.square.acc, 'k');
+title('SQUARE ACC');
+set(gca,'XTick',1:3, 'XTickLabelMode','manual', 'XTickLabel',{'Overall', 'Congr', 'Incongr'},'FontSize',10)
+xlim([0 4]);
+
+subplot(1,2,2);
+bar(data.square.rt, 'k');
+title('SQUARE RT');
 set(gca,'XTick',1:3, 'XTickLabelMode','manual', 'XTickLabel',{'Overall', 'Congr', 'Incongr'},'FontSize',10)
 xlim([0 4]);
 
@@ -686,19 +712,17 @@ return
         NotCorrect  = 77; % Pad2
         breakKey  = 52; % ESC
         exp.ABORT = false;
-        Left = 2;
-        Right  = 1;
         
         if squares.resp.n == 1
             if squares.resp.key == Correct || squares.resp.key == NotCorrect
                 squares.probe.rt = squares.resp.time - squares.respOnset;
-                if squareMatrix(1,4) == -1
+                if squareMatrix(1,4) == -1%if incongurent probe
                     if squares.resp.key == NotCorrect
                         squares.acc = 1;
                     else
                         squares.acc = 0;
                     end
-                elseif squareMatrix(1,4) == 1
+                elseif squareMatrix(1,4) == 1%if congurent probe
                     if squares.resp.key == Correct
                         squares.acc = 1;
                     else
