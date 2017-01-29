@@ -196,7 +196,7 @@ for block = 1 : data.Nblocks
             if exp.ABORT
                 break
             else
-                data.output = [data.output;...
+                data212.output = [data.output;...
                     cross.probe.rt...
                     cross.acc...
                     cross.prime.position...
@@ -223,42 +223,25 @@ for block = 1 : data.Nblocks
                     cross.probe.OnsetTime...
                     cross.probe.OffsetTime...
                     cross.probe_actualDuration...   
-                    
                     squareMatrixNumbers(vectorToDisplay(1,1),(vectorToDisplay(1,2)))... % actual square color
                     vectorToDisplay(1,3)...%single square color
                     vectorToDisplay(1,4)...%conjurency of square
                     squares.acc...%whether the user found the correct answer
                     squares.probe.duration...%the time the single square is shown
-                    squqares.prime.duration...%the time the multiple squares showin at start.
-                    
-                    
-                    squares.respOnset...%The time the 1st question mark is shown
-                    squares.respOffset...%The time the question mark is answered.
+                    squares.prime.duration...%the time the multiple squares showin at start.
+                    squares.respDur...%Think this is the max time we wait for an answer at question mark
+                    squares.respOnset...%The time the 2nd question mark is shown
+                    squares.respOffset...%The time the 2nd question mark is answered.
+                    squares.resp.time...%The time at which the participant responded(not time difference)
                     squares.respOffset-squares.respOnset...%The reaction time based on onsets
-                    squares.resp.time%The reaction time based on 1st method
-                    squares.resp.key...%The
-                    squares.resp.n...%No idea what this is
-                    squares.respDur...%Think this is the t
-
-                    
-                    squares.resp.time...%Think is the time they took to respond
-                    squares.resp.key...%THINK is the time waiting for question mark
-                    squares.respDur...%think
-                    squares.respOnset...
-                     squares.resp.key...
-                    
-                    
-                            cgtext('?',0,0);
-        squares.respOnset = cgflip(background,background,background) .* 1000;
-        squares.resp.key =[]; cross.resp.time = [];  squares.resp.n = [];
-        [squares.resp.key squares.resp.time squares.resp.n] = waitkeydown(squares.respDur);
-        squares.respOffset = cgflip(background,background,background) .* 1000;
-                    
-                    
+                    squares.resp.time-squares.respOnset...%The reaction time based on the waitkeyDown method(squares.resp.time and squares.respOffset-squares.respOnset should match
+                    squares.resp.key...%The key pressed (0/1/escape)
+                    squares.resp.n%No idea what this is
+                                      
                     ];
                 save(resultFileName,'data');
             end
-        end % condMet
+        end % condMet221
     end % trial
     if exp.ABORT
         break

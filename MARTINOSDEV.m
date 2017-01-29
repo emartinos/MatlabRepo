@@ -223,20 +223,21 @@ for block = 1 : data.Nblocks
                     cross.probe.OnsetTime...
                     cross.probe.OffsetTime...
                     cross.probe_actualDuration...   
-                    
                     squareMatrixNumbers(vectorToDisplay(1,1),(vectorToDisplay(1,2)))... % actual square color
                     vectorToDisplay(1,3)...%single square color
                     vectorToDisplay(1,4)...%conjurency of square
                     squares.acc...%whether the user found the correct answer
                     squares.probe.duration...%the time the single square is shown
-                    squqares.prime.duration...%the time the multiple squares showin at start.
+                    squares.prime.duration...%the time the multiple squares showin at start.
+                    squares.respDur...%Think this is the max time we wait for an answer at question mark
                     squares.respOnset...%The time the 2nd question mark is shown
                     squares.respOffset...%The time the 2nd question mark is answered.
+                    squares.resp.time...%The time at which the participant responded(not time difference)
                     squares.respOffset-squares.respOnset...%The reaction time based on onsets
-                    squares.resp.time%The reaction time based on the waitkeyDown method(squares.resp.time and squares.respOffset-squares.respOnset should match
+                    squares.resp.time-squares.respOnset...%The reaction time based on the waitkeyDown method(squares.resp.time and squares.respOffset-squares.respOnset should match
                     squares.resp.key...%The key pressed (0/1/escape)
-                    squares.resp.n...%No idea what this is
-                    squares.respDur%Think this is the max time we wait for an answer at question mark                  
+                    squares.resp.n%No idea what this is
+                                      
                     ];
                 save(resultFileName,'data');
             end
