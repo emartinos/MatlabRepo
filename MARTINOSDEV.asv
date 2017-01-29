@@ -177,7 +177,6 @@ for block = 1 : data.Nblocks
             %for all the trials we generated an array of 1,-1 evenly and
             %randomised at beginning. If this trial should show the correct
             %then show correct else show false.
-            vectorToDisplay = [];
             if correctOrWrongSquares(data.trial,1) == 1
                 vectorToDisplay  = getCorrectRandomColorAndPositionFromVector(squareMatrixNumbers);
                 displaySingleSquare(vectorToDisplay,block);
@@ -221,14 +220,7 @@ for block = 1 : data.Nblocks
                     cross.probe.OnsetTime...
                     cross.probe.OffsetTime...
                     cross.probe_actualDuration...;
-                    
-                    
-                    squareMatrixNumbers;...
-                    vectorToDisplay;...                    
-
-                    squares.resp.key...           
-                    squares.resp.acc...
-                    squares.resp.time               
+                    squares.pencolour
                     ];
                 save(resultFileName,'data');
             end
