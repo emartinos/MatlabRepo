@@ -42,7 +42,7 @@ else
 end
 %% ==================== display parameters ============================= %
 global background foreground fix_size penwidth pencolour fontname fontsize...
-    exp memory block delay probe condMet cross mask gam
+    exp memory block delay probe condMet cross mask gam squares
 gam = 2.2;
 mode=1;  %window=0, fullscreen=1, second screen = 2
 resolution=6; %1=640x480, 2=800x600, 3=1024x768, 4=1152x864, 5=1280x1024, 6=1600x1200
@@ -143,6 +143,7 @@ for block = 1 : data.Nblocks
             %                     %                     memory.duration = 1500; % this is wm set 6 duration
             %                     memory.duration = 2000; % this is wm set 9 duration
             %             end
+            squares.respDur = 3000;
             cross.respDur  = 3000;
             mask.pre_duration     = 500;
             mask.post_duration    = 50;
@@ -168,7 +169,7 @@ for block = 1 : data.Nblocks
             %             display_arc_postmask
             
             %generate a matrix for the squares
-            squareMatrixNumbers = getSquareMatrix(3*3)
+            squareMatrixNumbers = getSquareMatrix(block*3)
             %display them on screen
             display_squares(squareMatrixNumbers);
             display_mask_prime_mask_probe
@@ -178,8 +179,10 @@ for block = 1 : data.Nblocks
             %then show correct else show false.
             if correctOrWrongSquares(data.trial,1) == 1
                 vectorToDisplay  = getCorrectRandomColorAndPositionFromVector(squareMatrixNumbers);
+                displaySingleSquare(vectorToDisplay,block);
             else
                  vectorToDisplay  = getFalseRandomColorAndPositionFromVector(squareMatrixNumbers);
+                 displaySingleSquare(vectorToDisplay,block);
             end
             
             %             display_probe
@@ -524,7 +527,7 @@ return
 
 
     function display_squares(squareMatrix)
-        global background squares exp mask gam
+        global background exp
         exp.ABORT = false;
         cgflip(background(1),background(2),background(3)) .* 1000;
         %1=red
@@ -651,4 +654,55 @@ return
         cgflip(background(1),background(2),background(3)) .* 1000;
         wait(2000);
         %----------------------------------------------------------------------
+        
+        cgflip(background(1),background(2),background(3));
+        cgtext('?',0,0);
+        squares.respOnset = cgflip(background,background,background) .* 1000;
+        squares.resp.key =[]; cross.resp.time = [];  squares.resp.n = [];
+        [squares.resp.key squares.resp.time squares.resp.n] = waitkeydown(squares.respDur);
+        % waituntil(cross.respOnset + cross.respDur);
+        squares.respOffset = cgflip(background,background,background) .* 1000;
+        % ====================================================================== %
+        % ==================== ACC and RT of Detection Task ===================== %
+        Correct   = 76; % Pad1
+        NotCorrect  = 77; % Pad2
+        breakKey  = 52; % ESC
+        exp.ABORT = false;
+        Left = 2;
+        Right  = 1;
+        
+        if squares.resp.n == 1
+            if squares.resp.key == Correct || squares.resp.key == NotCorrect
+                squares.probe.rt = squares.resp.time - squares.respOnset;
+                if squareMatrix(1,4) == -1
+                    if squares.resp.key == NotCorrect
+                        squares.acc = 1;
+                    else
+                        squares.acc = 0;
+                    end
+                elseif squareMatrix(1,4) == 1
+                    if squares.resp.key == Correct
+                        squares.acc = 1;
+                    else
+                        squares.acc = 0;
+                    end
+                end
+            elseif squares.resp.key == breakKey
+                squares.rt = NaN;
+                squares.acc = NaN;
+                exp.ABORT = true;
+            else
+                squares.resp.key(1) = NaN;
+                squares.resp.time(1) = NaN;
+                squares.resp.n(1) = NaN;
+                squares.rt = NaN;
+                squares.acc = NaN;
+            end
+        else
+            squares.resp.key(1) = NaN;
+            squares.resp.time(1) = NaN;
+            squares.resp.n(1) = NaN;
+            squares.rt = NaN;
+            squares.acc = NaN;
+        end  
         return
