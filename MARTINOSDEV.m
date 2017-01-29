@@ -169,7 +169,7 @@ for block = 1 : data.Nblocks
             %             display_arc_postmask
             
             %generate a matrix for the squares
-            squareMatrixNumbers = getSquareMatrix(3*3)
+            squareMatrixNumbers = getSquareMatrix(block*3)
             %display them on screen
             display_squares(squareMatrixNumbers);
             display_mask_prime_mask_probe
@@ -610,27 +610,27 @@ return
         xScreenPos = 0;
         yScreenPos=  0;
         if squareMatrix(1,2) == 1
-            xScreenPos = -40;
+            xScreenPos = -15;
         elseif squareMatrix(1,2) == 2
             xScreenPos = 0;
         elseif squareMatrix(1,2) == 3
-            xScreenPos = 40;
+            xScreenPos = 15;
         end
         if mySize == 1
             yScreenPos = 0;
         elseif mySize ==2
             if squareMatrix(1,1) == 1
-                yScreenPos = 30;
+                yScreenPos = 15;
             elseif squareMatrix(1,1) == 2
-                yScreenPos = -30;
+                yScreenPos = -15;
             end
         else
             if squareMatrix(1,1) == 1
-                yScreenPos = 30;
+                yScreenPos = 15;
             elseif squareMatrix(1,1) == 2
                 yScreenPos = 0;
             elseif squareMatrix(1,1) == 3
-                yScreenPos = -30;
+                yScreenPos = -15;
             end
         end
         
