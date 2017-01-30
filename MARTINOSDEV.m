@@ -171,7 +171,7 @@ for block = 1 : data.Nblocks
             %             display_arc_postmask
             
             %generate a matrix for the squares
-            squareMatrixNumbers = getSquareMatrix(block*3)
+            squareMatrixNumbers = getSquareMatrix((block-1)+block)
             %display them on screen
             display_squares(squareMatrixNumbers);
             display_mask_prime_mask_probe
@@ -601,19 +601,11 @@ return
                     
                     if size(squareMatrix,1) ==1
                         yScreenPos = 0;
-                    elseif size(squareMatrix,1)==2
+                    else
                         if i ==1
-                            yScreenPos = 15;
-                        elseif i ==2
                             yScreenPos = -15;
-                        end
-                    elseif size(squareMatrix,1)==3
-                        if i ==1
-                            yScreenPos = 15;
                         elseif i ==2
                             yScreenPos = 0;
-                        elseif i ==3
-                            yScreenPos = -15;
                         end
                     end
                     
@@ -663,24 +655,15 @@ return
         elseif squareMatrix(1,2) == 3
             xScreenPos = 15;
         end
-        if mySize == 1
+        if mySize == 1 || mySize == 2
             yScreenPos = 0;
-        elseif mySize ==2
-            if squareMatrix(1,1) == 1
-                yScreenPos = 15;
-            elseif squareMatrix(1,1) == 2
-                yScreenPos = -15;
-            end
         else
             if squareMatrix(1,1) == 1
-                yScreenPos = 15;
-            elseif squareMatrix(1,1) == 2
-                yScreenPos = 0;
-            elseif squareMatrix(1,1) == 3
                 yScreenPos = -15;
+            else
+                 yScreenPos = 0;
             end
-        end
-        
+        end        
         %at this point we have an x and a y position for our matrix. Now we
         %need to get the color.
         
